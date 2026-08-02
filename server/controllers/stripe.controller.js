@@ -17,14 +17,13 @@ export const createPaymentIntent = async (req, res) => {
             });
         }
 
-        let settings = await PaymentSettingsModel.findOne();
-        const secretKey = settings?.stripeSecretKey || process.env.STRIPE_SECRET_KEY;
+        const secretKey = process.env.STRIPE_SECRET_KEY;
 
         if (!secretKey) {
             return res.status(400).json({
                 error: true,
                 success: false,
-                message: "Stripe Secret Key is missing in server settings or .env file"
+                message: "Stripe Secret Key is missing in server .env file"
             });
         }
 

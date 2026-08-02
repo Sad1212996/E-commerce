@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Button, Switch, FormControlLabel, CircularProgress } from '@mui/material';
-import { FaMoneyBillWave, FaUniversity, FaPaypal, FaVial, FaSave } from "react-icons/fa";
+import { FaMoneyBillWave, FaUniversity, FaPaypal, FaVial, FaSave, FaCreditCard } from "react-icons/fa";
 import { MyContext } from '../../App';
 import { fetchDataFromApi, editData, deleteImages } from '../../utils/api';
 import UploadBox from '../../Components/UploadBox';
@@ -126,7 +126,7 @@ export const PaymentSettings = () => {
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {/* Dev Test Mode */}
-                            <div className={`p-4 rounded-lg border transition-all ${settings.isDevTestEnabled ? 'bg-amber-50 border-amber-300' : 'bg-gray-50 border-gray-200'}`}>
+                            {/* <div className={`p-4 rounded-lg border transition-all ${settings.isDevTestEnabled ? 'bg-amber-50 border-amber-300' : 'bg-gray-50 border-gray-200'}`}>
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-center gap-3">
                                         <div className="p-2.5 rounded-full bg-amber-100 text-amber-700">
@@ -148,7 +148,7 @@ export const PaymentSettings = () => {
                                         label=""
                                     />
                                 </div>
-                            </div>
+                            </div> */}
 
                             {/* Stripe Payment Gateway */}
                             <div className={`p-4 rounded-lg border transition-all ${settings.isStripeEnabled ? 'bg-purple-50 border-purple-300' : 'bg-gray-50 border-gray-200'}`}>
@@ -177,44 +177,7 @@ export const PaymentSettings = () => {
                         </div>
                     </div>
 
-                    {/* Stripe API Keys Configuration */}
-                    {settings.isStripeEnabled && (
-                        <div className="card bg-white p-6 rounded-xl shadow-sm border border-purple-200 space-y-4">
-                            <h2 className="text-lg font-semibold text-gray-800 pb-2 border-b flex items-center gap-2">
-                                💳 ตั้งค่า Stripe API Keys (Stripe Configuration)
-                            </h2>
 
-                            <div className="space-y-4">
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                                        Stripe Publishable Key (<code className="text-purple-700">pk_test_...</code>)
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="stripePublishableKey"
-                                        value={settings.stripePublishableKey || ''}
-                                        onChange={handleInputChange}
-                                        className="w-full p-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-purple-500 focus:outline-none"
-                                        placeholder="pk_test_51..."
-                                    />
-                                </div>
-
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                                        Stripe Secret Key (<code className="text-purple-700">sk_test_...</code>)
-                                    </label>
-                                    <input
-                                        type="password"
-                                        name="stripeSecretKey"
-                                        value={settings.stripeSecretKey || ''}
-                                        onChange={handleInputChange}
-                                        className="w-full p-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-purple-500 focus:outline-none"
-                                        placeholder="sk_test_51..."
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    )}
 
                     {/* Submit Button */}
                     <div className="flex justify-end">
