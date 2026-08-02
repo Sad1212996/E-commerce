@@ -149,32 +149,23 @@ export async function createProduct(request, response) {
 //get all products
 export async function getAllProducts(request, response) {
     try {
+        const page = parseInt(request.query.page) || 1;
+        const limit = parseInt(request.query.limit) || 12;
+        const skip = (page - 1) * limit;
 
-        const { page, limit } = request.query;
-        const totalProducts = await ProductModel.find();
-
-        const products = await ProductModel.find().sort({ createdAt: -1 }).skip((page - 1) * limit).limit(parseInt(limit));
-
-        const total = await ProductModel.countDocuments(products);
-
-        if (!products) {
-            return response.status(400).json({
-                error: true,
-                success: false
-            })
-        }
+        const totalProductsCount = await ProductModel.countDocuments();
+        const products = await ProductModel.find().sort({ createdAt: -1 }).skip(skip).limit(limit);
 
         return response.status(200).json({
             error: false,
             success: true,
-            products: products,
-            total: total,
-            page: parseInt(page),
-            totalPages: Math.ceil(total / limit),
-            totalCount: totalProducts?.length,
-            totalProducts: totalProducts
-        })
-
+            products: products || [],
+            total: totalProductsCount,
+            page: page,
+            totalPages: Math.ceil(totalProductsCount / limit) || 1,
+            totalCount: totalProductsCount,
+            totalProducts: products || []
+        });
 
     } catch (error) {
         return response.status(500).json({

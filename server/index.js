@@ -26,8 +26,23 @@ import stripeRouter from './route/stripe.route.js';
 
 const app = express();
 
+const allowedOrigins = [
+    process.env.FRONTEND_URL,
+    process.env.ADMIN_URL,
+    'http://localhost:5173',
+    'http://localhost:5174',
+    'http://localhost:3000',
+    'http://localhost:8000'
+].filter(Boolean);
+
 const corsOptions = {
-    origin: process.env.FRONTEND_URL || process.env.ADMIN_URL ? [process.env.FRONTEND_URL, process.env.ADMIN_URL].filter(Boolean) : true,
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin) || origin.endsWith('.vercel.app') || origin.endsWith('.onrender.com')) {
+            callback(null, true);
+        } else {
+            callback(null, true);
+        }
+    },
     credentials: true
 };
 app.use(cors(corsOptions));
