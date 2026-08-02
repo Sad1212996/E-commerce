@@ -157,6 +157,8 @@ const Checkout = () => {
       postData('/api/stripe/create-payment-intent', { totalAmount: total }).then((res) => {
         if (res?.clientSecret) {
           setClientSecret(res.clientSecret);
+        } else if (res?.error) {
+          context.alertBox("error", res?.message || "Failed to initialize Stripe Payment");
         }
       });
     }

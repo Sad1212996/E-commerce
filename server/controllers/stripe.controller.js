@@ -17,13 +17,14 @@ export const createPaymentIntent = async (req, res) => {
             });
         }
 
-        const secretKey = process.env.STRIPE_SECRET_KEY;
+        const settings = await PaymentSettingsModel.findOne();
+        const secretKey = settings?.stripeSecretKey || process.env.STRIPE_SECRET_KEY;
 
-        if (!secretKey || secretKey.includes("YOUR_SECRET_KEY_HERE") || !secretKey.startsWith("sk_")) {
+        if (!secretKey || secretKey.includes("YOUR_SECRET_KEY_HERE") || (!secretKey.startsWith("sk_") && !secretKey.startsWith("rk_"))) {
             return res.status(400).json({
                 error: true,
                 success: false,
-                message: "Stripe Secret Key (sk_live_... or sk_test_...) is not configured in server/.env"
+                message: "Stripe Secret Key (sk_live_... or sk_test_...) is not configured in Admin Payment Settings or server/.env"
             });
         }
 
@@ -106,7 +107,8 @@ export const stripeWebhookController = async (req, res) => {
 
 export const getPublishableKey = async (req, res) => {
     try {
-        const publishableKey = process.env.STRIPE_PUBLISHABLE_KEY || '';
+        const settings = await PaymentSettingsModel.findOne();
+        const publishableKey = settings?.stripePublishableKey || process.env.STRIPE_PUBLISHABLE_KEY || '';
         return res.status(200).json({
             error: false,
             success: true,
