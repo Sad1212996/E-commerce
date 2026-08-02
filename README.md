@@ -1,4 +1,4 @@
-# 🛍️ Full-Stack E-Commerce Platform | Portfolio Showcase (Work 1)
+# 🛍️ Full-Stack E-Commerce Platform
 
 [![Live Demo](https://img.shields.io/badge/Live_Demo-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://e-commerce-roan-chi-27.vercel.app/)
 [![React](https://img.shields.io/badge/React-18.3-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://reactjs.org/)
