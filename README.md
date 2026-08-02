@@ -12,12 +12,42 @@
 
 ---
 
-## 🔗 ลิงก์ทดลองใช้งานระบบ (Live Demo & Links)
+## 🌐 ลิงก์ทดลองใช้งานระบบ (Live Demo Options)
 
-- 🌐 **Live Website (Customer Storefront):** [https://e-commerce-roan-chi-27.vercel.app/](https://e-commerce-roan-chi-27.vercel.app/)
-- 💻 **GitHub Repository:** [https://github.com/Sad1212996/E-commerce](https://github.com/Sad1212996/E-commerce)
+เลือกระบบที่ต้องการทดลองใช้งาน:
+
+| ฝั่งการใช้งาน (Platform Side) | ลิงก์ทดลองใช้งาน (Live Demo URL) | ข้อมูลเข้าสู่ระบบ (Demo Account) |
+| :--- | :--- | :--- |
+| 🛍️ **Client Storefront (หน้าร้านสำหรับลูกค้า)** | [👉 เข้าชมหน้าร้าน (Client Store)](https://e-commerce-roan-chi-27.vercel.app/) | `user@demo.com` / `User1234!` |
+| ⚙️ **Admin Dashboard (ระบบหลังบ้านผู้ดูแล)** | [👉 เข้าชมระบบหลังบ้าน (Admin Panel)](https://e-commerce-roan-chi-27.vercel.app/admin) | `admin@demo.com` / `Admin1234!` |
+
+> 💻 **GitHub Repository:** [https://github.com/Sad1212996/E-commerce](https://github.com/Sad1212996/E-commerce)
 
 ---
+
+### 🛠️ คู่มือการปรับแต่ง / เปิด-ปิด ฟังก์ชันตัวเลือก Live Demo (Demo Config Guide)
+
+ฟังก์ชันการเลือกดูฝั่ง **Client** หรือ **Admin** นี้ได้รับการออกแบบให้ยืดหยุ่น สามารถเลือก **เปิดใช้งาน (Enable)** หรือ **ปิดใช้งาน (Disable)** ได้ตามต้องการ:
+
+#### 1. การปรับในระดับเอกสาร (README Display Toggle)
+* **หากต้องการแสดงทั้ง 2 ฝั่ง (Default):** คงตารางเปรียบเทียบ Client & Admin ไว้ตามปกติ
+* **หากต้องการปิดการเข้าถึงฝั่ง Admin (Disable Admin Demo):** ซ่อนแถว Admin ในตารางออก ให้เหลือเพียงลิงก์ฝั่ง Client ลิงก์เดียว ดังนี้:
+  ```markdown
+  - 🌐 **Live Website:** [https://e-commerce-roan-chi-27.vercel.app/](https://e-commerce-roan-chi-27.vercel.app/)
+  ```
+
+#### 2. การตั้งค่าและแก้ไขในระดับ Source Code & Environment Variables
+* **ปรับเปลี่ยน URL ปลายทาง (Custom Domain / Deployment):**
+  แก้ไขค่าในไฟล์ `.env` ของแต่ละโมดูล (`server/.env`, `client/.env`, `admin/.env`):
+  ```env
+  # server/.env
+  FRONTEND_URL=https://your-client-domain.vercel.app
+  ADMIN_URL=https://your-admin-domain.vercel.app
+  ```
+* **การเปิด/ปิดสิทธิ์การเข้าถึงฝั่ง Admin ในระบบ (Feature Toggle):**
+  - **ควบคุมระดับ Frontend:** ใน `admin/src/App.jsx` สามารถตั้งค่าตัวแปรสวิตช์ `VITE_ENABLE_ADMIN_ACCESS=true/false` ใน `.env` เพื่อควบคุมการแสดงผล Route ได้
+  - **ควบคุมระดับ Backend API:** ใน `server/middlewares/auth.js` สามารถเปิด/ปิดการเปิดรับ Request จาก Admin Role ได้โดยตรงผ่าน Admin Auth Middleware
+
 
 ## 🎯 วัตถุประสงค์และปัญหาที่ระบบนี้แก้ไข (Business Problem & Solution)
 
