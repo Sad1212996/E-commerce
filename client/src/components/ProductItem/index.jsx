@@ -245,14 +245,11 @@ const ProductItem = (props) => {
           {/* Title and Price Row */}
           <div className="flex items-start justify-between gap-2">
             <div className="flex-1">
-              <h3 className="text-[17px] font-[700] text-gray-900 leading-tight line-clamp-1 inline-block mr-1">
+              <h3 className="text-[16px] font-[700] text-gray-900 leading-tight line-clamp-1">
                 <Link to={`/product/${props?.item?._id}`} className="hover:text-gray-600 transition-colors">
                   {props?.item?.name}
                 </Link>
               </h3>
-              <span className="text-[13px] text-[#f59e0b] font-[500]">
-                ({props?.item?.rating || 4.5} ★)
-              </span>
             </div>
             
             <div className="text-right">
@@ -260,6 +257,20 @@ const ProductItem = (props) => {
                 ฿{(parseFloat(props?.item?.price) || 0).toLocaleString()}
               </span>
             </div>
+          </div>
+
+          {/* Rating Row */}
+          <div className="flex items-center gap-1.5 mt-1.5 mb-1">
+            <Rating
+              name="product-rating"
+              value={Number(props?.item?.rating) || 4}
+              precision={0.5}
+              readOnly
+              size="small"
+            />
+            <span className="text-[12px] font-[600] text-amber-600">
+              ({props?.item?.rating || 4.0})
+            </span>
           </div>
 
           {/* Subtitle / Short Description */}
