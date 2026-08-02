@@ -1,0 +1,134 @@
+@keyframes spinSlow {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spinReverse {
+  0% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes logoPulse {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.2));
+  }
+  50% {
+    transform: scale(1.06);
+    filter: drop-shadow(0 0 22px rgba(0, 0, 0, 0.4));
+  }
+}
+
+@keyframes shimmerGlow {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.preloader-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(circle at center, #ffffff 0%, #f8fafc 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.6s ease;
+}
+
+.preloader-overlay.fade-out {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.preloader-spinner-container {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner-outer-ring {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: #000000;
+  border-right-color: #333333;
+  animation: spinSlow 1.4s linear infinite;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.spinner-inner-ring {
+  position: absolute;
+  width: 82%;
+  height: 82%;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  border-bottom-color: #000000;
+  border-left-color: #666666;
+  animation: spinReverse 1.8s linear infinite;
+}
+
+.preloader-logo-box {
+  width: 75px;
+  height: 75px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  animation: logoPulse 2s ease-in-out infinite;
+  z-index: 2;
+}
+
+.preloader-logo-box img {
+  max-width: 55px;
+  max-height: 55px;
+  object-fit: contain;
+}
+
+.preloader-text-brand {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-top: 24px;
+  color: #000000;
+}
+
+.preloader-progress-bar {
+  width: 180px;
+  height: 4px;
+  background: #e2e8f0;
+  border-radius: 10px;
+  margin-top: 16px;
+  overflow: hidden;
+  position: relative;
+}
+
+.preloader-progress-fill {
+  width: 100%;
+  height: 100%;
+  background: #000000;
+  border-radius: 10px;
+}

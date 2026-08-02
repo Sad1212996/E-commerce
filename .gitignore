@@ -1,0 +1,20 @@
+# Environment Variables (MUST NOT BE PUSHED TO GITHUB)
+.env
+.env*
+*.env
+**/.env
+**/.env*
+
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Production Build Outputs
+dist/
+build/
+**/dist/
+**/build/
+
+# System / Log files
+.DS_Store
+*.log
