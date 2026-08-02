@@ -7,9 +7,10 @@ import sendEmailFun from "../config/sendEmail.js";
 
 export const createOrderController = async (request, response) => {
     try {
+        const userId = request.userId; // Secure: use authenticated userId
 
         let order = new OrderModel({
-            userId: request.body.userId,
+            userId: userId,
             products: request.body.products,
             paymentId: request.body.paymentId,
             payment_status: request.body.payment_status,
@@ -45,7 +46,7 @@ export const createOrderController = async (request, response) => {
             );
         }
 
-        const user = await UserModel.findOne({ _id: request.body.userId })
+        const user = await UserModel.findOne({ _id: userId })
 
         const recipients = [];
         recipients.push(user?.email);

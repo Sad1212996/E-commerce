@@ -4,17 +4,8 @@ import UserModel from "../models/user.model.js";
 export const addAddressController = async (request, response) => {
 
     try {
-        const { address_line1, city, state, pincode, country, mobile, userId, landmark, addressType } = request.body;
-
-
-        // if (!address_line1 || city || state || pincode || country || mobile || userId) {
-        //     return response.status(500).json({
-        //         message: "Please provide all the fields",
-        //         error: true,
-        //         success: false
-        //     })
-        // }
-
+        const userId = request.userId; // Secure: get from authenticated session token
+        const { address_line1, city, state, pincode, country, mobile, landmark, addressType } = request.body;
 
         const address = new AddressModel({
             address_line1, city, state, pincode, country, mobile, userId, landmark, addressType
@@ -36,9 +27,6 @@ export const addAddressController = async (request, response) => {
             success: true
         })
 
-
-
-
     } catch (error) {
         return response.status(500).json({
             message: error.message || error,
@@ -52,30 +40,14 @@ export const addAddressController = async (request, response) => {
 
 export const getAddressController = async (request, response) => {
     try {
-        const address = await AddressModel.find({ userId: request?.query?.userId });
+        const userId = request.userId; // Secure: use authenticated userId
+        const address = await AddressModel.find({ userId: userId });
 
-        if (!address) {
-            return response.status({
-                error: true,
-                success: false,
-                message: "address not found"
-            })
-        }
-
-        else {
-
-            const updateUser = await UserModel.updateOne({ _id: request?.query?.userId }, {
-                $push: {
-                    address: address?._id
-                }
-            })
-            
-            return response.status(200).json({
-                error: false,
-                success: true,
-                data: address
-            })
-        }
+        return response.status(200).json({
+            error: false,
+            success: true,
+            data: address
+        })
 
     } catch (error) {
         return response.status(500).json({

@@ -10,8 +10,8 @@ import { Link } from "react-router-dom";
 const HomeSlider = (props) => {
   const context = useContext(MyContext);
 
-  const rawSlideObjects = props?.data?.length !== 0
-    ? props?.data?.slice()?.reverse()?.flatMap((item) => {
+  const rawSlideObjects = Array.isArray(props?.data) && props?.data?.length > 0
+    ? props.data.slice().reverse().flatMap((item) => {
         const imgs = item?.images || [];
         return imgs.map((img) => ({
           image: img,
@@ -32,7 +32,7 @@ const HomeSlider = (props) => {
     <div className="homeSlider pb-3 pt-3 lg:pb-5 lg:pt-5 relative z-[99] overflow-hidden">
       <div className="w-full">
         <Swiper
-          loop={true}
+          loop={slidesList?.length > 1}
           centeredSlides={true}
           slidesPerView={1.15}
           spaceBetween={15}

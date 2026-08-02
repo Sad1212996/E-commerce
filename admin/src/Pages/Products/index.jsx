@@ -389,7 +389,7 @@ export const Products = () => {
                                 {
                                     context?.catData?.map((cat, index) => {
                                         return (
-                                            <MenuItem value={cat?._id}>{cat?.name}</MenuItem>
+                                            <MenuItem key={cat?._id || index} value={cat?._id}>{cat?.name}</MenuItem>
                                         )
                                     })
                                 }
@@ -415,11 +415,11 @@ export const Products = () => {
                             >
                                 <MenuItem value={null}>None</MenuItem>
                                 {
-                                    context?.catData?.map((cat, index) => {
+                                    context?.catData?.map((cat) => {
                                         return (
                                             cat?.children?.length !== 0 && cat?.children?.map((subCat, index_) => {
                                                 return (
-                                                    <MenuItem value={subCat?._id}>
+                                                    <MenuItem key={subCat?._id || index_} value={subCat?._id}>
                                                         {subCat?.name}</MenuItem>
                                                 )
                                             })
@@ -614,7 +614,7 @@ export const Products = () => {
 
                                     <>
                                         <TableRow>
-                                            <TableCell colspan={8}>
+                                            <TableCell colSpan={8}>
                                                 <div className="flex items-center justify-center w-full min-h-[400px]">
                                                     <CircularProgress color="inherit" />
                                                 </div>
@@ -632,7 +632,7 @@ export const Products = () => {
                 <TablePagination
                     rowsPerPageOptions={[50, 100, 150, 200]}
                     component="div"
-                    count={productData?.totalPages * rowsPerPage}
+                    count={parseInt(productData?.totalCount || productData?.total || 0) || 0}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onPageChange={handleChangePage}

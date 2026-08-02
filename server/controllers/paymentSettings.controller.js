@@ -2,10 +2,17 @@ import PaymentSettingsModel from "../models/paymentSettings.model.js";
 
 export const getPaymentSettings = async (req, res) => {
     try {
-        let settings = await PaymentSettingsModel.findOne();
+        let settings = await PaymentSettingsModel.findOne().lean();
         if (!settings) {
             settings = await PaymentSettingsModel.create({});
+            settings = settings.toObject();
         }
+        
+        // Hide secret key from public GET response
+        if (settings) {
+            delete settings.stripeSecretKey;
+        }
+
         return res.status(200).json({
             error: false,
             success: true,

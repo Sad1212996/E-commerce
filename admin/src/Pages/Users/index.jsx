@@ -280,11 +280,20 @@ export const Users = () => {
                                                 </TableCell>
                                                 <TableCell style={{ minWidth: columns.minWidth }}>
                                                     <div className="flex items-center gap-4 w-[300px]">
-                                                        <div class="img w-[45px] h-[45px] rounded-md overflow-hidden group">
+                                                        <div className="img w-[45px] h-[45px] rounded-md overflow-hidden group flex items-center justify-center bg-gray-100">
 
                                                                 <img
-                                                                    src={user?.avatar !== "" && user?.avatar !== undefined ? user?.avatar : '/user.jpg'}
-                                                                    class="w-full group-hover:scale-105 transition-all"
+                                                                    src={
+                                                                        Array.isArray(user?.avatar)
+                                                                            ? (user.avatar[0] || '/user.jpg')
+                                                                            : (typeof user?.avatar === 'string' && user?.avatar?.trim() !== "" ? user.avatar : '/user.jpg')
+                                                                    }
+                                                                    onError={(e) => {
+                                                                        e.target.onerror = null;
+                                                                        e.target.src = '/user.jpg';
+                                                                    }}
+                                                                    className="w-full h-full object-cover group-hover:scale-105 transition-all"
+                                                                    alt={user?.name || "User Avatar"}
                                                                 />
                                                           
                                                         </div>
@@ -357,7 +366,7 @@ export const Users = () => {
 
                                     <>
                                         <TableRow>
-                                            <TableCell colspan={8}>
+                                            <TableCell colSpan={8}>
                                                 <div className="flex items-center justify-center w-full min-h-[400px]">
                                                     <CircularProgress color="inherit" />
                                                 </div>

@@ -18,7 +18,7 @@ const HomeBannerV2 = (props) => {
 
   return (
     <Swiper
-      loop={true}
+      loop={props?.data?.length > 1}
       slidesPerView={1}
       spaceBetween={30}
       effect="fade"

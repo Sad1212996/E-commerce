@@ -162,7 +162,7 @@ const Header = () => {
                           className="!text-[#000] myAccountWrap flex items-center gap-3 cursor-pointer"
                           onClick={handleClick}
                         >
-                          <Button className="!w-[40px] !h-[40px] !min-w-[40px] !rounded-full !bg-gray-200 overflow-hidden !p-0">
+                          <div className="w-[40px] h-[40px] min-w-[40px] rounded-full bg-gray-200 overflow-hidden flex items-center justify-center p-0">
                             {
                               context?.userData?.avatar ? (
                                 <img src={context?.userData?.avatar} className="w-full h-full object-cover" alt="User Avatar" />
@@ -170,7 +170,7 @@ const Header = () => {
                                 <FaRegUser className="text-[17px] text-[rgba(0,0,0,0.7)]" />
                               )
                             }
-                          </Button>
+                          </div>
                         </Button>
 
                         <Menu

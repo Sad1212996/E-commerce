@@ -194,9 +194,13 @@ const Home = () => {
           </div>
 
           <div className="part2 scrollableBox w-full lg:w-[30%] flex items-center gap-5 justify-between flex-row lg:flex-col">
-            <BannerBoxV2 info={bannerV1Data[bannerV1Data?.length - 1]?.alignInfo} image={bannerV1Data[bannerV1Data?.length - 1]?.images[0]} item={bannerV1Data[bannerV1Data?.length - 1]} />
+            {bannerV1Data?.length > 0 && (
+              <BannerBoxV2 info={bannerV1Data[bannerV1Data.length - 1]?.alignInfo} image={bannerV1Data[bannerV1Data.length - 1]?.images?.[0]} item={bannerV1Data[bannerV1Data.length - 1]} />
+            )}
 
-            <BannerBoxV2 info={bannerV1Data[bannerV1Data?.length - 2]?.alignInfo} image={bannerV1Data[bannerV1Data?.length - 2]?.images[0]} item={bannerV1Data[bannerV1Data?.length - 2]} />
+            {bannerV1Data?.length > 1 && (
+              <BannerBoxV2 info={bannerV1Data[bannerV1Data.length - 2]?.alignInfo} image={bannerV1Data[bannerV1Data.length - 2]?.images?.[0]} item={bannerV1Data[bannerV1Data.length - 2]} />
+            )}
           </div>
 
         </div>

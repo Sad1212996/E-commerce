@@ -26,6 +26,15 @@ const columns = [
     { id: "action", label: "Action", minWidth: 100 },
 ];
 
+const sanitizeHtml = (html) => {
+    if (!html) return '';
+    return html
+        .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+        .replace(/javascript:/gi, '')
+        .replace(/on\w+="[^"]*"/gi, '')
+        .replace(/on\w+='[^']*'/gi, '');
+};
+
 export const BlogList = () => {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -148,7 +157,7 @@ export const BlogList = () => {
 
 
                                             <TableCell width={300}>
-                                                <div className="w-[250px] sm:w-[200px] md:w-[300px]" dangerouslySetInnerHTML={{ __html: item?.description?.substr(0, 150) + '...' }} />
+                                                <div className="w-[250px] sm:w-[200px] md:w-[300px]" dangerouslySetInnerHTML={{ __html: sanitizeHtml(item?.description?.substr(0, 150) || '') + '...' }} />
                                             </TableCell>
 
                                             <TableCell width={100}>

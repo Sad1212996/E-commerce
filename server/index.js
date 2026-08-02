@@ -31,16 +31,24 @@ const allowedOrigins = [
     process.env.ADMIN_URL,
     'http://localhost:5173',
     'http://localhost:5174',
+    'http://localhost:5175',
+    'http://localhost:5176',
     'http://localhost:3000',
     'http://localhost:8000'
 ].filter(Boolean);
 
 const corsOptions = {
     origin: (origin, callback) => {
-        if (!origin || allowedOrigins.includes(origin) || origin.endsWith('.vercel.app') || origin.endsWith('.onrender.com')) {
+        if (
+            !origin ||
+            allowedOrigins.includes(origin) ||
+            /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin) ||
+            origin.endsWith('.vercel.app') ||
+            origin.endsWith('.onrender.com')
+        ) {
             callback(null, true);
         } else {
-            callback(null, true);
+            callback(null, false);
         }
     },
     credentials: true
@@ -48,6 +56,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.use(express.json());
+app.use('/uploads', express.static('uploads'));
 app.use(cookieParser());
 app.use(sanitizeInput);
 

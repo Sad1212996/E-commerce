@@ -7,7 +7,19 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 
 
+const sanitizeHtml = (html) => {
+  if (!html) return '';
+  // Strip dangerous tags like script, iframe, object, embed, style, or event handlers
+  return html
+    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+    .replace(/javascript:/gi, '')
+    .replace(/on\w+="[^"]*"/gi, '')
+    .replace(/on\w+='[^']*'/gi, '');
+};
+
 const BlogItem = (props) => {
+  const cleanDescription = sanitizeHtml(props?.item?.description?.substr(0, 100) || '') + '...';
+
   return (
     <div className="blogItem group">
       <div className="imgWrapper w-full overflow-hidden rounded-md cursor-pointer relative">
@@ -29,7 +41,7 @@ const BlogItem = (props) => {
           <Link to="/" className="link">{props?.item?.title}</Link>
         </h2>
 
-        <div className="mb-3 text-[14px] lg:text-[16px]" dangerouslySetInnerHTML={{ __html: props?.item?.description?.substr(0, 100) + '...' }} />
+        <div className="mb-3 text-[14px] lg:text-[16px]" dangerouslySetInnerHTML={{ __html: cleanDescription }} />
 
 
 

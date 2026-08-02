@@ -272,21 +272,19 @@ const Header = () => {
                 className="rounded-full w-[35px] h-[35px] overflow-hidden cursor-pointer"
                 onClick={handleClickMyAcc}
               >
-                {
-                  context?.userData?.avatar !== "" && context?.userData?.avatar !== null && context?.userData?.avatar !== undefined ?
                     <img
-                      src={context?.userData?.avatar}
+                      src={
+                        Array.isArray(context?.userData?.avatar)
+                          ? (context.userData.avatar[0] || '/user.jpg')
+                          : (typeof context?.userData?.avatar === 'string' && context?.userData?.avatar?.trim() !== "" ? context.userData.avatar : '/user.jpg')
+                      }
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = '/user.jpg';
+                      }}
                       className="w-full h-full object-cover"
+                      alt="User Avatar"
                     />
-
-                    :
-
-                    <img
-                      src="/user.jpg"
-                      className="w-full h-full object-cover"
-                    />
-
-                }
 
               </div>
 
