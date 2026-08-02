@@ -125,13 +125,16 @@ const Checkout = () => {
   }, [context?.userData]);
 
   useEffect(() => {
+    fetchDataFromApi('/api/stripe/get-publishable-key').then((stripeRes) => {
+      const pubKey = stripeRes?.publishableKey || VITE_STRIPE_PUBLISHABLE_KEY;
+      if (pubKey) {
+        setStripePromise(loadStripe(pubKey));
+      }
+    });
+
     fetchDataFromApi('/api/payment-settings/get').then((res) => {
       if (res?.data) {
         setPaymentSettings(res.data);
-        const pubKey = res.data.stripePublishableKey || VITE_STRIPE_PUBLISHABLE_KEY;
-        if (pubKey) {
-          setStripePromise(loadStripe(pubKey));
-        }
 
         if (res.data.isDevTestEnabled) setPaymentMethod("DEV_TEST");
         else if (res.data.isStripeEnabled) setPaymentMethod("STRIPE");
@@ -329,7 +332,7 @@ const Checkout = () => {
 
               <div className="flex flex-col gap-3">
                 {/* Dev Test Mode Option */}
-                {paymentSettings.isDevTestEnabled && (
+                {/* {paymentSettings.isDevTestEnabled && (
                   <label className={`flex items-center gap-3 p-3.5 rounded-lg border cursor-pointer transition-all ${paymentMethod === 'DEV_TEST' ? 'bg-amber-50 border-amber-400 font-bold' : 'border-gray-200'}`}>
                     <Radio
                       checked={paymentMethod === 'DEV_TEST'}
@@ -342,7 +345,7 @@ const Checkout = () => {
                       <span className="text-sm">🧪 โหมดทดสอบ (Dev / Test Mode - Bypass Payment)</span>
                     </div>
                   </label>
-                )}
+                )} */}
 
                 {/* Stripe Payment Option */}
                 {paymentSettings.isStripeEnabled && (
@@ -364,7 +367,7 @@ const Checkout = () => {
                     {paymentMethod === 'STRIPE' && (
                       <div className="mt-3">
                         {stripePromise && clientSecret ? (
-                          <Elements stripe={stripePromise} options={{ clientSecret, appearance: { theme: 'stripe' } }}>
+                          <Elements stripe={stripePromise} key={clientSecret} options={{ clientSecret, appearance: { theme: 'stripe' } }}>
                             <StripeCheckoutForm
                               totalAmount={totalAmount}
                               selectedAddress={selectedAddress}
@@ -378,7 +381,7 @@ const Checkout = () => {
                         ) : (
                           <div className="p-4 text-center text-xs text-gray-500 flex items-center justify-center gap-2">
                             <CircularProgress size={18} color="secondary" />
-                            <span>กำลังโหลดระบบ Stripe Payment... (โปรดตรวจสอบ Stripe API Keys ใน Admin)</span>
+                            <span>กำลังโหลดระบบชำระเงินปลอดภัย Stripe Payment...</span>
                           </div>
                         )}
                       </div>

@@ -19,11 +19,11 @@ export const createPaymentIntent = async (req, res) => {
 
         const secretKey = process.env.STRIPE_SECRET_KEY;
 
-        if (!secretKey) {
+        if (!secretKey || secretKey.includes("YOUR_SECRET_KEY_HERE") || !secretKey.startsWith("sk_")) {
             return res.status(400).json({
                 error: true,
                 success: false,
-                message: "Stripe Secret Key is missing in server .env file"
+                message: "Stripe Secret Key (sk_live_... or sk_test_...) is not configured in server/.env"
             });
         }
 
@@ -101,5 +101,22 @@ export const stripeWebhookController = async (req, res) => {
     } catch (error) {
         console.error("Stripe webhook error:", error);
         return res.status(500).send("Webhook internal error");
+    }
+};
+
+export const getPublishableKey = async (req, res) => {
+    try {
+        const publishableKey = process.env.STRIPE_PUBLISHABLE_KEY || '';
+        return res.status(200).json({
+            error: false,
+            success: true,
+            publishableKey: publishableKey
+        });
+    } catch (error) {
+        return res.status(500).json({
+            error: true,
+            success: false,
+            message: error.message || error
+        });
     }
 };
