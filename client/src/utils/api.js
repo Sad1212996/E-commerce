@@ -1,5 +1,15 @@
 import axios from "axios";
-const apiUrl = import.meta.env.VITE_API_URL;
+
+const getCleanApiUrl = () => {
+    let baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+    return baseUrl.replace(/\/+$/, '');
+};
+
+const getFullUrl = (path) => {
+    const base = getCleanApiUrl();
+    const cleanPath = path.startsWith('/') ? path : `/${path}`;
+    return `${base}${cleanPath}`;
+};
 
 const getAuthHeaders = (contentType = 'application/json') => {
     const headers = { 'Content-Type': contentType };
@@ -12,7 +22,7 @@ const getAuthHeaders = (contentType = 'application/json') => {
 
 export const postData = async (url, formData) => {
     try {
-        const response = await fetch(apiUrl + url, {
+        const response = await fetch(getFullUrl(url), {
             method: 'POST',
             credentials: 'include',
             headers: getAuthHeaders('application/json'),
@@ -39,7 +49,7 @@ export const fetchDataFromApi = async (url) => {
             withCredentials: true
         } 
 
-        const { data } = await axios.get(apiUrl + url, params)
+        const { data } = await axios.get(getFullUrl(url), params)
         return data;
     } catch (error) {
         console.log(error);
@@ -54,7 +64,7 @@ export const uploadImage = async (url, updatedData ) => {
     } 
 
     var response;
-    await axios.put(apiUrl + url, updatedData, params).then((res)=>{
+    await axios.put(getFullUrl(url), updatedData, params).then((res)=>{
         response = res;
     })
     return response;
@@ -67,7 +77,7 @@ export const editData = async (url, updatedData ) => {
     } 
 
     var response;
-    await axios.put(apiUrl + url, updatedData, params).then((res)=>{
+    await axios.put(getFullUrl(url), updatedData, params).then((res)=>{
         response = res;
     })
     return response;
@@ -78,6 +88,6 @@ export const deleteData = async (url ) => {
         headers: getAuthHeaders('application/json'),
         withCredentials: true
     } 
-    const { res } = await axios.delete(apiUrl + url, params)
+    const { res } = await axios.delete(getFullUrl(url), params)
     return res;
 }
